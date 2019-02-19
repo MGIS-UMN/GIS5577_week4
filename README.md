@@ -1,5 +1,15 @@
-# GIS5577_week4
-Lab materials for week 4
+# GIS 5577 Week 4
+This repository contains the Open Office lecture
 
-Please be sure to do the readings for this week. Mastering PostGIS Chapters 3 & 4.
-I have added three pdf files here for you reference.
+### Purpose (Database Design)
+1. Normalized vs Denormalized Tables
+1. Joins (Inner, Outer, Left, Right)
+1. Common Table Expressions vs SubQueries
+
+### Readings
+1. Chapters 3 & 4 of Mastering PostGIS
+
+### Additional materials (PDF)
+1. PostGIS Raster Cheat Sheet
+1. PostGIS Vector Cheat Sheet
+1. PostgreSQL Tutorial
