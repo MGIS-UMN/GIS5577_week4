@@ -1,0 +1,99 @@
+SELECT *
+FROM languages
+
+SELECT person, array_agg(language_spoken) as languages_spoken
+FROM languages
+GROUP BY person
+
+SELECT *
+FROM degree
+
+SELECT first_name ||' '|| last_name as full_name, array_agg(degree_earned) as all_degrees
+FROM degree
+GROUP BY first_name ||' '|| last_name
+
+
+
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO students;
+
+SELECT *
+FROM table_one, table_two
+
+SELECT *
+FROM table_one t1 
+INNER JOIN table_two t2 ON (t1.id = t2.id)
+
+SELECT *
+FROM table_one t1 
+LEFT JOIN table_two t2 ON (t1.id = t2.id)
+
+-- specify certain columns
+SELECT t1.id, t1.value, t2.value, t2.value|| ' dogs' as wierd_text, t2.id-5
+FROM table_one t1
+LEFT JOIN table_two t2 ON (t1.id = t2.id)
+
+SELECT value
+FROM table_one t1
+LEFT JOIN table_three t3 ON (t1.id = t3.ids)
+
+SELECT *
+FROM table_three
+
+
+
+SELECT t1.id, t1.value, t2.value, t2.value|| ' dogs' as wierd_text, t2.id-5
+FROM table_one t1
+RIGHT JOIN table_two t2 ON (t1.id = t2.id)
+
+
+SELECT t1.id, t1.value, t2.value, t2.value|| ' dogs' as wierd_text, t2.id-5
+FROM table_one t1
+RIGHT JOIN table_two t2 ON (t2.id = t1.id)
+
+WITH result1 as
+(
+SELECT store_name, store_number, city, zip_code, sale
+FROM iowa_liquor_sales
+WHERE lower(store_name) LIKE 'hy-vee%' AND sale > 50::money
+)
+SELECT t1.city, count(1)
+FROM result1 t1 INNER JOIN  result1 t2 ON (t1.store_number = t2.store_number)
+GROUP BY t1.city
+
+-- subquery
+SELECT 
+FROM 
+(
+    SELECT city, count(city)
+    FROM 
+    (
+        SELECT store_name, store_number, city, zip_code, sale
+        FROM iowa_liquor_sales
+        WHERE lower(store_name) LIKE 'hy-vee%' AND sale > 50::money
+    ) as r1
+	GROUP BY city
+    
+    CREATE TEMP TABLE david (ids serial, the_name varchar);
+    
+ 
+
+GRANT ALL ON ALL TABLES IN SCHEMA public TO students
+GRANT ALL on ALL SEQUENCES IN SCHEMA public TO students
+    
+    
+CREATE VIEW table_four AS
+SELECT t1.id, t1.value as table_one_value, t2.value as table_two_value, t2.value|| ' dogs' as wierd_text
+FROM table_one t1
+LEFT JOIN table_two t2 ON (t1.id = t2.id)
+    
+    
+SELECT *
+FROM table_one, table_two
+   
+  
+INSERT INTO table_two (id, value) VALUES (2,'8')    
+    
+    
+SELECT *
+FROM table_four
+    
