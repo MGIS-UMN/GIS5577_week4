@@ -1,5 +1,5 @@
 # GIS 5577 Week 4
-This repository contains the Open Office lecture
+This repository contains all the information you will need.
 
 ### Purpose (Database Design)
 1. Normalized vs Denormalized Tables
