@@ -1,0 +1,169 @@
+select *
+from table_one, table_two
+
+select *
+from table_two
+
+-- 1	"a"
+-- 4	"d"
+-- 2	"b"
+
+SELECT *
+FROM table_one t1 INNER JOIN 
+table_two t2 ON (t1.id = t2.id)
+
+-- 2	"b"	2	"x"
+
+--QUESTION Can I use additional column in the JOIN
+(t1.id = t2.id AND t1.fieldA = t2.fieldB)
+-- Expand the ON clause as much as you need
+
+
+SELECT *
+FROM table_one t1, table_two t2 
+WHERE t1.id = t2.id
+
+--LEFT JOIN
+SELECT *
+FROM table_one t1 
+LEFT JOIN table_two t2 ON (t1.id = t2.id)
+
+-- Directional understanding what didn't match
+
+-- I changed the ON clause (t1 and t2 order)
+SELECT *
+FROM table_one t1 
+LEFT JOIN table_two t2 ON (t2.id = t1.id)
+
+
+SELECT *
+FROM table_one t1 
+RIGHT JOIN table_two t2 ON (t2.id = t1.id)
+
+/*
+1	"a"		
+2	"b"	2	"x"
+4	"d"		
+*/
+
+table1_is_important LEFT JOIN XXXXX
+XXXX RIGHT JOIN table2_is_important
+
+-- Identity spatial join
+
+
+
+SELECT *
+FROM census_tracts_2000_diversity
+LIMIT 20
+
+--
+SELECT mn.county_name, mn.total, black_alone, american_indian_alone, asian_alone, hawaiian_pi_alone
+-- specify the column names
+FROM (
+	-- Inside out
+	-- This is the limit
+	SELECT gis_join_match_code, state_name, county_name, total
+	FROM census_tracts_2000_diversity
+	WHERE state_name = 'Minnesota'
+	) AS mn,
+	(
+		-- You can have multiple subqueries
+		-- This is stacked and that means they are cross joining
+	SELECT gis_join_match_code, state_name, county_name, total, black_alone, american_indian_alone, asian_alone, hawaiian_pi_alone
+	FROM census_tracts_2000_diversity
+	WHERE state_name = 'Wisconsin'
+	) as wi
+WHERE mn.county_name = 'Ramsey'
+
+--- I need to add state_code
+
+
+SELECT county_name, (black_alone + american_indian_alone + asian_alone + hawaiian_pi_alone) / total_population
+FROM(
+	SELECT mn.county_name, mn.total_population, black_alone, american_indian_alone, asian_alone, hawaiian_pi_alone
+	FROM (
+		-- Inside out
+		SELECT gis_join_match_code, state_name, county_name, total as total_population, black_alone, american_indian_alone, asian_alone, hawaiian_pi_alone
+		FROM census_tracts_2000_diversity
+		WHERE state_name = 'Minnesota'
+		) AS mn
+	WHERE mn.county_name = 'Ramsey'
+) z
+WHERE total_population > 0
+
+
+-- TOP DOWN
+WITH mydata as
+(
+SELECT gis_join_match_code, state_name, county_name, total as total_population, black_alone, american_indian_alone, asian_alone, hawaiian_pi_alone
+FROM census_tracts_2000_diversity
+WHERE state_name = 'Minnesota'
+)
+, ramsey_data as
+(
+SELECT  *
+FROM mydata
+WHERE county_name = 'Ramsey'
+)
+SELECT  *
+FROM mydata
+WHERE county_name = 'Hennepin'
+
+
+
+
+
+WITH mydata as --this is like doing a local in Stata -- it's a temporary file just for during this query
+(
+-- I did XX
+SELECT gis_join_match_code, state_name, county_name, total as pop_total, black_alone, white_alone
+FROM census_tracts_2000_diversity
+WHERE state_name = 'Minnesota'
+)
+SELECT *
+FROM mydata
+WHERE county_name = 'Ramsey'
+
+
+
+SELECT *
+FROM geometry_columns
+
+
+CREATE VIEW mn_data as
+SELECT gis_join_match_code, state_name, county_name, total as total_population, black_alone, american_indian_alone, asian_alone, hawaiian_pi_alone
+FROM census_tracts_2000_diversity
+WHERE state_name = 'Minnesota'
+
+
+select *
+from mn_data;
+
+
+
+
+CREATE TABLE junk_table (id integer, value varchar(5));
+INSERT INTO junk_table (id, value) VALUES (2, 'x'),(3, 'y'),(5, 'v');
+
+SELECT *
+FROM junk_table
+
+CREATE VIEW junk_view as SELECT * FROM junk_table
+
+
+SELECT *
+FROM junk_view
+
+
+INSERT INTO junk_table (id, value) VALUES (99, 'dd');
+2,3,4
+
+
+
+
+
+
+
+
+		
