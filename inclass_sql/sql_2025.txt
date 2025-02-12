@@ -1,0 +1,135 @@
+create table dh.color_table(
+	participant_id integer,
+	participant_choice integer,
+	color text
+);
+
+
+INSERT INTO dh.color_table (participant_id, participant_choice, color)
+VALUES (1,1,'red'), (2,5,'green'), (3,4,'blue')
+
+select * 
+from dh.color_table
+
+--Insert a new record, where the participant chose red and green?
+
+INSERT INTO dh.color_table (participant_id, participant_choice, color)
+VALUES (4,6,'red, green')
+-- This is not correct
+
+INSERT INTO dh.color_table (participant_id, participant_choice, color)
+VALUES (4,6,'red'),(4,6,'green')
+
+-- Write the SQL that reports all of the participant choices
+-- 1 response for each participant
+
+
+SELECT participant_id, string_agg(color, ',') as color_choices
+from dh.color_table
+group by participant_id
+
+/*
+SELECT participant_id, string_agg(color) as color_choices
+from dh.color_table
+group by participant_id
+
+ERROR:  function string_agg(text) does not exist
+LINE 1: SELECT participant_id, string_agg(color) as color_choices
+string_agg(expression, delimiter)
+*/
+
+
+select * 
+from table_one, table_two
+
+from table_one cross join table_two
+
+SELECT *
+FROM table_one t1 INNER JOIN table_two t2 ON (t1.id = t2.id)
+-- specify table name with alias
+-- reserverd word
+-- specify table name with alias
+-- reserved word (ON)
+-- specify the join fields
+
+
+
+SELECT *
+FROM table_one as t1
+INNER JOIN table_two as t2 ON (t1.id = t2.id)
+
+
+SELECT *
+FROM table_one as t1
+LEFT JOIN table_two as t2 ON (t1.id = t2.id)
+	
+SELECT *
+FROM table_one as t1
+RIGHT JOIN table_two as t2 ON (t1.id = t2.id)
+
+
+-- Helpful for finding errors
+-- WHERE t2.id is NULL
+
+
+SELECT *
+FROM table_one as t1
+RIGHT JOIN table_two as t2 
+	ON (t2.id = t1.id) AND (t2.super_id = t1.super_id)
+	-- multiple column joins
+
+
+WITH annual_liquor_sales AS
+(
+SELECT date_part('year',invoice_date) as calendar_year,
+	SUM(sale) as total_sales_2
+FROM iowa_liquor_sales
+GROUP BY date_part('year',invoice_date)
+)
+SELECT calendar_year, total_sales_2
+FROM annual_liquor_sales
+WHERE calendar_year IN (2016,2012)
+
+
+
+SELECT *
+FROM annual_liquor_sales
+
+SELECT *
+FROM (
+	SELECT date_part('year',invoice_date) as calendar_year,
+		SUM(sale) as total_sales_2
+	FROM iowa_liquor_sales
+	GROUP BY date_part('year',invoice_date)
+	) as r1
+WHERE r1.calendar_year IN (2016,2012)
+
+	
+
+SELECT *
+FROM geography_columns
+
+
+CREATE VIEW dh.annual_sales as
+	SELECT date_part('year',invoice_date) as calendar_year,
+		SUM(sale) as total_sales_2
+	FROM iowa_liquor_sales
+	GROUP BY date_part('year',invoice_date)
+
+
+SELECT * 
+FROM dh.annual_sales
+
+
+INSERT INTO iowa_liquor_sales (invoice_date, sale) 
+	VALUES ('1/1/2019',100000)
+	
+
+
+CREATE TEMP TABLE public.not_accessible as
+	SELECT date_part('year',invoice_date) as calendar_year,
+		SUM(sale) as total_sales_2
+	FROM iowa_liquor_sales
+	GROUP BY date_part('year',invoice_date)
+	
+	FROM r1
